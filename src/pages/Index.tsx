@@ -6,10 +6,10 @@ import PredictionResult from '@/components/PredictionResult';
 import Footer from '@/components/Footer';
 
 const Index = () => {
-  const [predictionDays, setPredictionDays] = useState<number | null>(null);
+  const [predictionResult, setPredictionResult] = useState<[number, number, number] | null>(null);
 
-  const handleFileProcessed = (days: number) => {
-    setPredictionDays(days);
+  const handleFileProcessed = (result: [number, number, number]) => {
+    setPredictionResult(result);
     // Scroll to results
     setTimeout(() => {
       window.scrollTo({
@@ -20,7 +20,7 @@ const Index = () => {
   };
 
   const handleReset = () => {
-    setPredictionDays(null);
+    setPredictionResult(null);
     // Scroll back to top
     window.scrollTo({
       top: 0,
@@ -38,14 +38,14 @@ const Index = () => {
             Solar Installation Time Predictor
           </h2>
           <p className="text-lg text-solar-darkGray/80 max-w-2xl mx-auto">
-            Upload your property data file to get an estimated timeline for your solar panel installation.
+            Upload your excel file to get an estimated time for your solar panel installation.
           </p>
         </div>
         
-        {!predictionDays && <FileUpload onFileProcessed={handleFileProcessed} />}
+        {!predictionResult && <FileUpload onFileProcessed={handleFileProcessed} />}
         
-        {predictionDays !== null && (
-          <PredictionResult days={predictionDays} onReset={handleReset} />
+        {predictionResult !== null && (
+          <PredictionResult result={predictionResult}  onReset={handleReset} />
         )}
       </main>
       

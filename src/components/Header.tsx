@@ -12,9 +12,6 @@ const Header = () => {
             Midwest<span className="text-solar-yellow">Solar</span>
           </h1>
         </div>
-        <h2 className="text-lg md:text-xl text-solar-darkGray/80 italic">
-          Harnessing the Sun, One Roof at a Time
-        </h2>
       </div>
     </header>
   );

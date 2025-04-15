@@ -4,11 +4,12 @@ import { Calendar, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface PredictionResultProps {
-  days: number;
+  result: [number, number, number];
   onReset: () => void;
 }
 
-const PredictionResult: React.FC<PredictionResultProps> = ({ days, onReset }) => {
+const PredictionResult: React.FC<PredictionResultProps> = ({result, onReset }) => {
+  const [days, hours, mins] = result;
   const [isVisible, setIsVisible] = useState(false);
   
   useEffect(() => {
@@ -20,18 +21,18 @@ const PredictionResult: React.FC<PredictionResultProps> = ({ days, onReset }) =>
     return () => clearTimeout(timer);
   }, []);
   
-  // Calculate estimated completion date (days from now)
-  const getEstimatedDate = () => {
-    const today = new Date();
-    const estimatedDate = new Date(today);
-    estimatedDate.setDate(today.getDate() + days);
+  // // Calculate estimated completion date (days from now)
+  // const getEstimatedDate = () => {
+  //   const today = new Date();
+  //   const estimatedDate = new Date(today);
+  //   estimatedDate.setDate(today.getDate() + days);
     
-    return estimatedDate.toLocaleDateString('en-US', {
-      weekday: 'long',
-      month: 'long', 
-      day: 'numeric'
-    });
-  };
+  //   return estimatedDate.toLocaleDateString('en-US', {
+  //     weekday: 'long',
+  //     month: 'long', 
+  //     day: 'numeric'
+  //   });
+  // };
 
   return (
     <div 
@@ -54,11 +55,13 @@ const PredictionResult: React.FC<PredictionResultProps> = ({ days, onReset }) =>
           <div className="bg-solar-yellow/10 p-4 rounded-lg text-center">
             <p className="text-sm text-solar-darkGray/70 mb-1">Estimated Time</p>
             <p className="text-3xl font-bold text-solar-darkGray">
-              {days} <span className="text-xl">days</span>
+              {days} <span className="text-xl">days</span> {" "} 
+              {hours} <span className="text-xl">hours</span> {" "}
+              {mins} <span className="text-xl">mins</span>
             </p>
           </div>
           
-          <div className="bg-solar-blue/10 p-4 rounded-lg text-center flex-1">
+          {/* <div className="bg-solar-blue/10 p-4 rounded-lg text-center flex-1">
             <p className="text-sm text-solar-darkGray/70 mb-1 flex items-center justify-center gap-1">
               <Calendar size={14} />
               <span>Expected Completion</span>
@@ -66,13 +69,10 @@ const PredictionResult: React.FC<PredictionResultProps> = ({ days, onReset }) =>
             <p className="text-xl font-bold text-solar-darkGray">
               {getEstimatedDate()}
             </p>
-          </div>
+          </div> */}
         </div>
         
         <div className="text-center text-gray-600 mb-8">
-          <p>
-            Our team will contact you shortly to confirm these details and schedule your installation.
-          </p>
         </div>
         
         <div className="flex justify-center">
