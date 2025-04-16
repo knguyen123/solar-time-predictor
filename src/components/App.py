@@ -1,14 +1,12 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
-import json
 import pickle
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.ensemble import HistGradientBoostingRegressor
-import logging
-logging.basicConfig(level=logging.DEBUG)
+
 
 
 app = Flask(__name__)
