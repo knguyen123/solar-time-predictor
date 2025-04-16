@@ -6,27 +6,29 @@ import PredictionResult from '@/components/PredictionResult';
 import Footer from '@/components/Footer';
 
 const Index = () => {
-  const [predictionResult, setPredictionResult] = useState<[number, number, number] | null>(null);
+  const [predictionResults, setPredictionResults] = useState<
+  {hours: number; mins: number }[] | null
+>(null);
 
-  const handleFileProcessed = (result: [number, number, number]) => {
-    setPredictionResult(result);
-    // Scroll to results
-    setTimeout(() => {
-      window.scrollTo({
-        top: document.body.scrollHeight / 2,
-        behavior: 'smooth'
-      });
-    }, 100);
-  };
-
-  const handleReset = () => {
-    setPredictionResult(null);
-    // Scroll back to top
+const handleFileProcessed = (results: {hours: number; mins: number }[]) => {
+  setPredictionResults(results);
+  // Scroll to results
+  setTimeout(() => {
     window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
+      top: document.body.scrollHeight / 2,
+      behavior: "smooth",
     });
-  };
+  }, 100);
+};
+
+const handleReset = () => {
+  setPredictionResults(null);
+  // Scroll back to top
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
 
   return (
     <div className="min-h-screen flex flex-col bg-solar-lightGray">
@@ -42,10 +44,10 @@ const Index = () => {
           </p>
         </div>
         
-        {!predictionResult && <FileUpload onFileProcessed={handleFileProcessed} />}
-        
-        {predictionResult !== null && (
-          <PredictionResult result={predictionResult}  onReset={handleReset} />
+        {!predictionResults && <FileUpload onFileProcessed={handleFileProcessed} />}
+
+        {predictionResults && (
+          <PredictionResult results={predictionResults} onReset={handleReset} />
         )}
       </main>
       

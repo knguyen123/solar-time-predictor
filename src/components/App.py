@@ -71,12 +71,13 @@ def convertPortraitLandscape(data):
     return data
             
 def convertToOutput(ypred):
-    #l = []
-    pred = ypred[0]
-    days, hours, minutes = pred // 24, (pred % 24), (pred % 1) * 60
-    return {"days": int(days), "hours" : int(hours), "mins": int(minutes)}
-        #l.append({"days": int(days), "hours" : int(hours), "minutes": int(minutes)})
-    #return l
+    l = []
+    #pred = ypred[0]
+    for pred in ypred:
+        hours, minutes = pred // 1, (pred % 1) * 60
+    #return {"days": int(days), "hours" : int(hours), "mins": int(minutes)}
+        l.append({"hours" : int(hours), "mins": int(minutes)})
+    return l
 
 @app.route('/process', methods=['POST'])
 def process_file():

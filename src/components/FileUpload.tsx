@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 
 interface FileUploadProps {
-  onFileProcessed: (result: [number, number, number]) => void;
+  onFileProcessed: (result: {hours: number; mins: number }[]) => void;
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({ onFileProcessed }) => {
@@ -70,67 +70,31 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileProcessed }) => {
     }
     setIsLoading(true);
     setError(null);
-
+  
     const formData = new FormData();
     formData.append("file", file);
-
+  
     try {
       const response = await fetch("http://127.0.0.1:5000/process", {
         method: "POST",
         body: formData,
       });
-
+  
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || "Failed to process the file");
       }
-
-      const result = await response.json();
-      const { days, hours, mins } = result;
+  
+      const result = await response.json(); // Assuming result is a list of predictions
       console.log("Processing result:", result);
-      onFileProcessed([days, hours, mins]);
+  
+      // Pass the list of predictions to the parent component
+      onFileProcessed(result);
     } catch (err) {
       setError(err.message || "An error occurred while processing the file");
     } finally {
       setIsLoading(false);
     }
-    /*
-    // Save the file to a temporary location
-    const tempDir = path.join(__dirname, "temp");
-    const tempFilePath = path.join(tempDir, file.name);
-
-    // Ensure the temp directory exists
-    if (!fs.existsSync(tempDir)) {
-      fs.mkdirSync(tempDir);
-    }
-
-    // Write the file to the temp directory
-    const reader = new FileReader();
-    reader.onload = () => {
-      fs.writeFileSync(tempFilePath, Buffer.from(reader.result as ArrayBuffer));
-
-      // Call the Python script with the file path as an argument
-      exec(`python process_file.py "${tempFilePath}"`, (error, stdout, stderr) => {
-        if (error) {
-          setError(`Error: ${stderr || error.message}`);
-          setIsLoading(false);
-          return;
-        }
-
-        try {
-          const result = JSON.parse(stdout); // Assuming the Python script returns JSON
-          const { days, hours, mins } = result;
-          onFileProcessed({ days, hours, mins }); // Pass all three values
-        } catch (err) {
-          setError("Failed to parse Python script output");
-        } finally {
-          setIsLoading(false);
-
-          // Clean up the temporary file
-          fs.unlinkSync(tempFilePath);
-        }
-      });
-    };*/
   };
 
 
