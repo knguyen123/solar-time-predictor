@@ -251,6 +251,10 @@ def process_file():
 
         ypred = model.predict(features)
         result = convertToOutput(ypred)
+        if os.path.exists(temp_file_path):
+            os.remove(temp_file_path)
+        if os.path.exists(csv_file_path):
+            os.remove(csv_file_path)
         return jsonify(result)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
