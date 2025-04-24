@@ -34,6 +34,7 @@ https://code.visualstudio.com/download\
 * Click on terminal -> new terminal (or use ctrl + shift + `)
 * Before the first time you run the program run the command: npm i
 * Run the command: npm run dev
+* Open the link it prints out on the terminal in your browser (should look something like http://localhost:8080/)
 
 **Using the Frontend**
 * Make sure to only upload a spreadsheet with the same formating as Template.xlsx that can be found in the components folder
