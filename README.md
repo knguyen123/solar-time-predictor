@@ -28,6 +28,9 @@ https://code.visualstudio.com/download\
 * Open src folder
 * Open components folder
 * Open App.py
+* Hit ctrl + shift + p
+* Type: Python: Select Interpreter
+* Click on the one that says 'solar'
 * Hit run button to the top right
 
 **Running Frontend**'
