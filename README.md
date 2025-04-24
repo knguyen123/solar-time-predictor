@@ -6,7 +6,7 @@
 https://code.visualstudio.com/download\
 
 **Install VSCode Extension**
--Python
+* Python
 
 **Install Dependencies**
 -NodeJS: https://nodejs.org/en
