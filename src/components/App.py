@@ -26,11 +26,11 @@ def convertDriveTime(drive_time):
 
 def stripDegree(data):
     if data is None:
-        return data
+        return np.nan
     if isinstance(data, str):
         data = data.replace('°', '').strip()
         return data
-    return data
+    return np.nan
 
 def covertYesNo(data):
     if isinstance(data, str):
@@ -39,6 +39,8 @@ def covertYesNo(data):
             return 1
         elif data == 'no':
             return 0
+        else:
+            return np.nan
     return data
 
 def convertSeason(data):
@@ -54,7 +56,7 @@ def convertSeason(data):
             case "fall":
                 return 3
             case _:
-                return -1
+                return np.nan
     return data
 
 def convertPortraitLandscape(data):
@@ -70,10 +72,8 @@ def convertPortraitLandscape(data):
             
 def convertToOutput(ypred):
     l = []
-    #pred = ypred[0]
     for pred in ypred:
         hours, minutes = pred // 1, (pred % 1) * 60
-    #return {"days": int(days), "hours" : int(hours), "mins": int(minutes)}
         l.append({"hours" : int(hours), "mins": int(minutes)})
     return l
 
@@ -173,8 +173,6 @@ def process_file():
 
         data["Install Season"] = data["Install Season"].apply(convertSeason)
 
-        data["Install Season"].replace(-1, np.nan, inplace=True)
-
         data["Portrait / Landscape"] = data["Portrait / Landscape"].apply(convertPortraitLandscape) 
 
         features_names = ['Drive Time',
@@ -242,9 +240,51 @@ def process_file():
         model = pickle.load(open(model_path, 'rb'))
         scaler = pickle.load(open(scaler_path, 'rb'))
 
+        fill_zeros = ['Inverter Manufacturer_GoodWe',
+                        'Inverter Manufacturer_SMA',
+                        'Inverter Manufacturer_SolarEdge',
+                        'Inverter Manufacturer_nan',
+                        'Array Type_Roof Mount',
+                        'Truss / Rafter_Purlin',
+                        'Truss / Rafter_Rafter',
+                        'Truss / Rafter_TJI',
+                        'Truss / Rafter_Truss',
+                        'Interconnection Type_A1',
+                        'Interconnection Type_A2',
+                        'Interconnection Type_A3',
+                        'Interconnection Type_A4',
+                        'Interconnection Type_B*',
+                        'Interconnection Type_B1',
+                        'Interconnection Type_B2',
+                        'Interconnection Type_C*',
+                        'Interconnection Type_C1',
+                        'Interconnection Type_C2',
+                        'Interconnection Type_C3',
+                        'Roof Type_Asphalt Shingles',
+                        'Roof Type_EPDM (Flat Roof)',
+                        'Roof Type_Ground Mount',
+                        'Roof Type_Standing Seam Metal Roof',
+                        'Attachment Type_Flashfoot 2',
+                        'Attachment Type_Flashloc RM',
+                        'Attachment Type_Flashview',
+                        'Attachment Type_Ground Mount',
+                        'Attachment Type_Hugs',
+                        'Attachment Type_RT Mini',
+                        'Attachment Type_S-5!',
+                        'Attachment Type_Unk0wn']
+        
+        for col in fill_zeros:
+            if col not in data.columns:
+                data[col] = 0
+            elif data[col].isnull().any():
+                data[col] = data[col].fillna(0)
+        
         for col in features_names:
             if col not in data.columns:
                 data[col] = np.nan
+            elif data[col].isnull().any():
+                data[col] = np.nan
+
 
         features = scaler.transform(data[features_names])
 
