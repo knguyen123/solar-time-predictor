@@ -1,18 +1,6 @@
-# Welcome to your Lovable project
+# Solarcast
 
 ## Project info
-
-**URL**: https://lovable.dev/projects/c502e3c0-1559-4676-a195-ab99b308112f
-
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/c502e3c0-1559-4676-a195-ab99b308112f) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
 
 **Use your preferred IDE**
 
